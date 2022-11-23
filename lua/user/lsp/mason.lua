@@ -16,7 +16,6 @@ local servers = {
   "jdtls",
   "jsonls",
   "solc",
-  "solidity_ls",
   "sumneko_lua",
   "tflint",
   "terraformls",
@@ -28,7 +27,8 @@ local servers = {
   "rust_analyzer",
   "taplo",
   "zk@v0.10.1",
-  "lemminx"
+  "lemminx",
+  "gopls"
 }
 
 local settings = {
@@ -136,6 +136,11 @@ for _, server in pairs(servers) do
     rust_tools.setup(rust_opts)
     goto continue
   end
+
+   if server == "gopls" then
+     local go_opts = require "user.lsp.settings.go"
+     opts = vim.tbl_deep_extend("force", go_opts, opts)
+   end
 
   lspconfig[server].setup(opts)
   ::continue::

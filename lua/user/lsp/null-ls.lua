@@ -23,6 +23,11 @@ null_ls.setup {
     formatting.google_java_format,
     -- diagnostics.flake8,
     diagnostics.shellcheck,
+    formatting.gofmt,
+    formatting.goimports,
+    diagnostics.golangci_lint.with {
+      extra_args = { "--enable-all" },
+    },
   },
 }
 
