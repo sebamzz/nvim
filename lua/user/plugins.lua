@@ -90,12 +90,19 @@ return packer.startup(function(use)
   use "hrsh7th/cmp-emoji"
   use "hrsh7th/cmp-nvim-lua"
   use "zbirenbaum/copilot-cmp"
-  use { "tzachar/cmp-tabnine", commit = "1a8fd2795e4317fd564da269cc64a2fa17ee854e", 
-run = "./install.sh" }
+  use { "tzachar/cmp-tabnine", commit = "1a8fd2795e4317fd564da269cc64a2fa17ee854e", run = "./install.sh" }
 
   -- Snippet
   use "L3MON4D3/LuaSnip" --snippet engine
   use "rafamadriz/friendly-snippets" -- a bunch of snippets to use
+
+  use {
+    "ThePrimeagen/refactoring.nvim",
+    requires = {
+      { "nvim-lua/plenary.nvim" },
+      { "nvim-treesitter/nvim-treesitter" },
+    },
+  }
 
   -- Syntax/Treesitter
   use "nvim-treesitter/nvim-treesitter"
@@ -152,8 +159,8 @@ run = "./install.sh" }
   -- Debugging
   use "mfussenegger/nvim-dap"
   use "rcarriga/nvim-dap-ui"
+  use "nvim-telescope/telescope-dap.nvim"
   -- use "theHamsta/nvim-dap-virtual-text"
-  -- use "Pocco81/DAPInstall.nvim"
 
   -- Tabline
   -- use "akinsho/bufferline.nvim"
@@ -195,6 +202,21 @@ run = "./install.sh" }
   use {
     "0x100101/lab.nvim",
     run = "cd js && npm ci",
+  }
+
+  -- Tests
+  use {
+    "nvim-neotest/neotest",
+    requires = {
+      "nvim-neotest/neotest-go",
+    },
+    config = function()
+      require("neotest").setup {
+        adapters = {
+          require "neotest-go",
+        },
+      }
+    end,
   }
 
   -- Git
@@ -239,6 +261,27 @@ run = "./install.sh" }
     "iamcco/markdown-preview.nvim",
     run = "cd app && npm install",
     ft = "markdown",
+  }
+
+  -- Go
+  use "fatih/vim-go"
+  use {
+    "leoluz/nvim-dap-go",
+    config = function()
+      require("dap-go").setup()
+    end,
+  }
+  use {
+    "edolphin-ydf/goimpl.nvim",
+    requires = {
+      { "nvim-lua/plenary.nvim" },
+      { "nvim-lua/popup.nvim" },
+      { "nvim-telescope/telescope.nvim" },
+      { "nvim-treesitter/nvim-treesitter" },
+    },
+    config = function()
+      require("telescope").load_extension "goimpl"
+    end,
   }
 
   -- Graveyard

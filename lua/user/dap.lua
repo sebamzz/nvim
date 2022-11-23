@@ -20,6 +20,14 @@ dapui.setup {
     repl = "r",
     toggle = "t",
   },
+  winbar = {
+    "dap-repl",
+    "dapui_console",
+    "dapui_watches",
+    "dapui_stacks",
+    "dapui_breakpoints",
+    "dapui_scopes",
+  },
   -- Expand lines larger than the window
   -- Requires >= 0.7
   expand_lines = vim.fn.has "nvim-0.7",
