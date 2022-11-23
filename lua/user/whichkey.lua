@@ -191,13 +191,21 @@ local mappings = {
 
   d = {
     name = "Debug",
+    a = { "<cmd>lua require'debugHelper'.attach()<CR>", "Attach" },
+    A = { "<cmd>lua require'debugHelper'.attachToRemote()<CR>", "Attach to Remote" },
     b = { "<cmd>lua require'dap'.toggle_breakpoint()<cr>", "Breakpoint" },
+    B = { "<cmd>lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>", "Breakpoint Condition" },
+    e = { "<cmd>lua require'dapui'.eval()<CR>", "Eval" },
+    E = { "<cmd>lua require'dapui'.eval(vim.fn.input '[Expression] > ')<cr>", "Evaluate Input" },
     c = { "<cmd>lua require'dap'.continue()<cr>", "Continue" },
-    i = { "<cmd>lua require'dap'.step_into()<cr>", "Into" },
-    o = { "<cmd>lua require'dap'.step_over()<cr>", "Over" },
-    O = { "<cmd>lua require'dap'.step_out()<cr>", "Out" },
+    C = { "<cmd>lua require'dap'.clear_breakpoints()<CR>", "Clear Breakpoints" },
+    o = { "<cmd>lua require'dap'.step_out()<cr>", "Step Out" },
+    ["<F7>"] = { "<cmd>lua require'dap'.step_into()<CR>", "Step Into" },
+    ["<F8>"] = { "<cmd>lua require'dap'.step_over()<CR>", "Step Over" },
+    ["<F9>"] = { "<cmd>lua require'dap'.run_to_cursor()<CR>", "Run to Cursor" },
     r = { "<cmd>lua require'dap'.repl.toggle()<cr>", "Repl" },
     l = { "<cmd>lua require'dap'.run_last()<cr>", "Last" },
+    L = { "<cmd>Telescope dap list_breakpoints<CR>", "List Breakpoints" },
     u = { "<cmd>lua require'dapui'.toggle()<cr>", "UI" },
     x = { "<cmd>lua require'dap'.terminate()<cr>", "Exit" },
   },
@@ -321,8 +329,15 @@ local mappings = {
     t = { "<cmd>SnipRunToggle<cr>", "Toggle" },
     x = { "<cmd>SnipTerminate<cr>", "Terminate" },
   },
-
+  
   t = {
+    name = "Test",
+    t = { "<cmd>lua require('neotest').run.run(vim.fn.getcwd())<cr>", "Test Package" },
+    f = { "<cmd>lua require('neotest').run.run(vim.fn.expand('%'))<cr>", "Test File" },
+    s = { "<cmd>lua require('neotest').summary.toggle()<cr>", "Summary" },
+  },
+
+  T = {
     name = "Terminal",
     ["1"] = { ":1ToggleTerm<cr>", "1" },
     ["2"] = { ":2ToggleTerm<cr>", "2" },
@@ -337,12 +352,12 @@ local mappings = {
     v = { "<cmd>ToggleTerm size=80 direction=vertical<cr>", "Vertical" },
   },
 
-  T = {
-    name = "Treesitter",
-    h = { "<cmd>TSHighlightCapturesUnderCursor<cr>", "Highlight" },
-    p = { "<cmd>TSPlaygroundToggle<cr>", "Playground" },
-    r = { "<cmd>TSToggle rainbow<cr>", "Rainbow" },
-  },
+  -- T = {
+  --   name = "Treesitter",
+  --   h = { "<cmd>TSHighlightCapturesUnderCursor<cr>", "Highlight" },
+  --   p = { "<cmd>TSPlaygroundToggle<cr>", "Playground" },
+  --   r = { "<cmd>TSToggle rainbow<cr>", "Rainbow" },
+  -- },
 
   -- z = {
   --   name = "Zen",

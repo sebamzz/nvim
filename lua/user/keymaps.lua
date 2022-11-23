@@ -65,7 +65,7 @@ keymap("n", "<C-Right>", ":vertical resize +2<CR>", opts)
 
 -- Insert --
 -- Press jk fast to enter
--- keymap("i", "jk", "<ESC>", opts)
+keymap("i", "jk", "<ESC>", opts)
 
 -- Visual --
 -- Stay in indent mode
@@ -82,8 +82,8 @@ keymap("v", "p", '"_dP', opts)
 -- Move text up and down
 -- keymap("x", "J", ":move '>+1<CR>gv-gv", opts)
 -- keymap("x", "K", ":move '<-2<CR>gv-gv", opts)
--- keymap("x", "<A-j>", ":move '>+1<CR>gv-gv", opts)
--- keymap("x", "<A-k>", ":move '<-2<CR>gv-gv", opts)
+keymap("x", "<A-j>", ":move '>+1<CR>gv-gv", opts)
+keymap("x", "<A-k>", ":move '<-2<CR>gv-gv", opts)
 
 -- Terminal --
 -- Better terminal navigation
@@ -107,8 +107,9 @@ keymap(
   [[:echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">" . " FG:" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"fg#")<CR>]],
   opts
 )
-keymap("n", "<F7>", "<cmd>TSHighlightCapturesUnderCursor<cr>", opts)
-keymap("n", "<F8>", "<cmd>TSPlaygroundToggle<cr>", opts)
+keymap("n", "<F7>", "<cmd>lua require'dap'.step_into()<CR>", opts)
+keymap("n", "<F8>", "<cmd>lua require'dap'.step_over()<CR>", opts)
+keymap("n", "<F9>", "<cmd>lua require'dap'.run_to_cursor()<CR>", opts)
 keymap("n", "<F11>", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
 keymap("n", "<F12>", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
 keymap("v", "//", [[y/\V<C-R>=escape(@",'/\')<CR><CR>]], opts)
@@ -185,7 +186,7 @@ vim.api.nvim_set_keymap(
 )
 -- vim.api.nvim_set_keymap("n", "<tab>", "<cmd>lua require('harpoon.ui').toggle_quick_menu()<cr>", opts)
 vim.api.nvim_set_keymap("n", "<m-g>", "<cmd>Telescope git_branches<cr>", opts)
-vim.api.nvim_set_keymap("n", "<s-enter>", "<cmd>TodoQuickFix<cr>", opts)
+vim.api.nvim_set_keymap("n", "<C-t>", "<CMd>TodoQuickFix<cr>", opts)
 -- l = { "<cmd>lua require('user.bfs').open()<cr>", "Buffers" },
 
 vim.cmd [[

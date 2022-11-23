@@ -73,7 +73,6 @@ M.setup = function()
   })
 end
 
-
 local function attach_navic(client, bufnr)
   vim.g.navic_silence = true
   local status_ok, navic = pcall(require, "nvim-navic")
@@ -87,18 +86,24 @@ local function lsp_keymaps(bufnr)
   local opts = { noremap = true, silent = true }
   vim.api.nvim_buf_set_keymap(bufnr, "n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts)
   vim.api.nvim_buf_set_keymap(bufnr, "n", "gD", "<cmd>Telescope lsp_declarations<CR>", opts)
-  -- vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
+  vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
   vim.api.nvim_buf_set_keymap(bufnr, "n", "gI", "<cmd>Telescope lsp_implementations<CR>", opts)
+  vim.api.nvim_buf_set_keymap(bufnr, "n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
+  vim.api.nvim_buf_set_keymap(bufnr, "n", "gc", "<cmd>lua vim.lsp.buf.incoming_calls()<CR>", opts)
   vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", "<cmd>Telescope lsp_references<CR>", opts)
   vim.api.nvim_buf_set_keymap(bufnr, "n", "gl", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
   vim.cmd [[ command! Format execute 'lua vim.lsp.buf.format({ async = true })' ]]
+  vim.cmd [[
+      nnoremap <silent> <buffer> <M-Up> <Esc>:execute "normal [m[m"<CR> 
+      nnoremap <silent> <buffer> <M-Down> <Esc>:execute "normal ]m"<CR> 
+    ]]
   vim.api.nvim_buf_set_keymap(bufnr, "n", "gs", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
   vim.api.nvim_buf_set_keymap(bufnr, "n", "<M-f>", "<cmd>Format<cr>", opts)
   vim.api.nvim_buf_set_keymap(bufnr, "n", "<M-a>", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
   -- vim.api.nvim_buf_set_keymap(bufnr, "n", "<M-s>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
   -- vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
   -- vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
-  -- vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>f", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
+  -- vim.api.nvim_buf_set_keymap(bufnr, "n", "<l{ buffer=true }{ buffer=true }eader>f", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
   -- vim.api.nvim_buf_set_keymap(bufnr, "n", "[d", '<cmd>lua vim.diagnostic.goto_prev({ border = "rounded" })<CR>', opts)
   -- vim.api.nvim_buf_set_keymap(bufnr, "n", "]d", '<cmd>lua vim.diagnostic.goto_next({ border = "rounded" })<CR>', opts)
   -- vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>q", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
@@ -113,22 +118,22 @@ M.on_attach = function(client, bufnr)
   end
 
   if client.name == "jdt.ls" then
-    vim.lsp.codelens.refresh()
-    if JAVA_DAP_ACTIVE then
-      require("jdtls").setup_dap { hotcodereplace = "auto" }
-      require("jdtls.dap").setup_dap_main_class_configs()
-    end
+  vim.lsp.codelens.refresh()
+  if JAVA_DAP_ACTIVE then
+    require("jdtls").setup_dap { hotcodereplace = "auto" }
+    require("jdtls.dap").setup_dap_main_class_configs()
   end
+end
 end
 
 function M.enable_format_on_save()
-  vim.cmd [[
-    augroup format_on_save
-      autocmd! 
-      autocmd BufWritePre * lua vim.lsp.buf.format({ async = false }) 
-    augroup end
-  ]]
-  vim.notify "Enabled format on save"
+vim.cmd [[
+  augroup format_on_save
+    autocmd! 
+    autocmd BufWritePre * lua vim.lsp.buf.format({ async = false }) 
+  augroup end
+]]
+vim.notify "Enabled format on save"
 end
 
 function M.disable_format_on_save()
