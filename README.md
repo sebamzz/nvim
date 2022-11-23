@@ -1,15 +1,11 @@
 # My Neovim Config
 
-### NOTE
-
-This config is BROKEN, you can take a look through it for ideas and stuff but don't expect it to work out of the box. I have since moved on to using LunarVim. It can be a real timesink to maintain a config this big by yourself, I don't recommend it. Soon I will turn this repo into a super light Neovim config to complement my LunarVim IDE setup.
-
 ## Try out this config
 
 Make sure to remove or move your current `nvim` directory
 
 ```sh
-git clone git@github.com:ChristianChiarulli/nvim.git ~/.config/nvim
+git clone git@github.com:sebamzz/nvim.git ~/.config/nvim
 ```
 
 Run `nvim` and wait for the plugins to be installed
