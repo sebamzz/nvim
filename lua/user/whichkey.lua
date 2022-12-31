@@ -108,6 +108,30 @@ local m_mappings = {
   [";"] = { '<cmd>lua require("harpoon.ui").toggle_quick_menu()<cr>', "Harpoon UI" },
 }
 
+local ga_opts = {
+  mode = "n", -- NORMAL mode
+  prefix = "ga",
+  buffer = nil, -- Global mappings. Specify a buffer number for buffer local mappings
+  silent = true, -- use `silent` when creating keymaps
+  noremap = true, -- use `noremap` when creating keymaps
+  nowait = true, -- use `nowait` when creating keymaps
+}
+
+local ga_mappings = {
+  name = "Text Cases",
+  u = { "<cmd>lua require('textcase').current_word('to_upper_case')<CR>", "To Upper Case" },
+  l = { "<cmd>lua require('textcase').current_word('to_lower_case')<CR>", "To Lower Case" },
+  s = { "<cmd>lua require('textcase').current_word('to_snake_case')<CR>", "To Snake Case" },
+  d = { "<cmd>lua require('textcase').current_word('to_dash_case')<CR>", "To Dash Case" },
+  n = { "<cmd>lua require('textcase').current_word('to_constant_case')<CR>", "To Constant Case" },
+  ["."] = { "<cmd>lua require('textcase').current_word('to_dot_case')<CR>", "To Dot Case" },
+  a = { "<cmd>lua require('textcase').current_word('to_phrase_case')<CR>", "To Phrase Case" },
+  c = { "<cmd>lua require('textcase').current_word('to_camel_case')<CR>", "To Camel Case" },
+  p = { "<cmd>lua require('textcase').current_word('to_pascal_case')<CR>", "To Pascal Case" },
+  t = { "<cmd>lua require('textcase').current_word('to_title_case')<CR>", "To Title Case" },
+  f = { "<cmd>lua require('textcase').current_word('to_path_case')<CR>", "To Path Case" },
+}
+
 local mappings = {
   -- ["1"] = "which_key_ignore",
   a = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Action" },
@@ -153,14 +177,16 @@ local mappings = {
 
   o = {
     name = "Options",
-    c = { '<cmd>lua vim.g.cmp_active=false<cr>', "Completion off" },
-    C = { '<cmd>lua vim.g.cmp_active=true<cr>', "Completion on" },
+    -- c = { "<cmd>lua vim.g.cmp_active=false<cr>", "Completion off" },
+    -- C = { "<cmd>lua vim.g.cmp_active=true<cr>", "Completion on" },
+    c = { "<cmd>lua require('copilot.suggestion').toggle_auto_trigger()<cr>", "Toggle Copilot Suggestions" },
+    d = { "<cmd>Twilight<cr>", "Dims Inactive Code" },
     w = { '<cmd>lua require("user.functions").toggle_option("wrap")<cr>', "Wrap" },
     r = { '<cmd>lua require("user.functions").toggle_option("relativenumber")<cr>', "Relative" },
     l = { '<cmd>lua require("user.functions").toggle_option("cursorline")<cr>', "Cursorline" },
     s = { '<cmd>lua require("user.functions").toggle_option("spell")<cr>', "Spell" },
     t = { '<cmd>lua require("user.functions").toggle_tabline()<cr>', "Tabline" },
-
+    f = { '<cmd>lua require("user.functions").toggle_fold_column()<cr>', "Fold Column" },
   },
 
   -- s = {
@@ -244,6 +270,51 @@ local mappings = {
     r = { "<cmd>lua require 'gitsigns'.reset_hunk()<cr>", "Reset Hunk" },
     R = { "<cmd>lua require 'gitsigns'.reset_buffer()<cr>", "Reset Buffer" },
     s = { "<cmd>lua require 'gitsigns'.stage_hunk()<cr>", "Stage Hunk" },
+    h = {
+      name = "+Github",
+      c = {
+        name = "+Commits",
+        c = { "<cmd>GHCloseCommit<cr>", "Close" },
+        e = { "<cmd>GHExpandCommit<cr>", "Expand" },
+        o = { "<cmd>GHOpenToCommit<cr>", "Open To" },
+        p = { "<cmd>GHPopOutCommit<cr>", "Pop Out" },
+        z = { "<cmd>GHCollapseCommit<cr>", "Collapse" },
+      },
+      i = {
+        name = "+Issues",
+        p = { "<cmd>GHPreviewIssue<cr>", "Preview" },
+      },
+      l = {
+        name = "+Litee",
+        t = { "<cmd>LTPanel<cr>", "Toggle Panel" },
+      },
+      r = {
+        name = "+Review",
+        b = { "<cmd>GHStartReview<cr>", "Begin" },
+        c = { "<cmd>GHCloseReview<cr>", "Close" },
+        d = { "<cmd>GHDeleteReview<cr>", "Delete" },
+        e = { "<cmd>GHExpandReview<cr>", "Expand" },
+        s = { "<cmd>GHSubmitReview<cr>", "Submit" },
+        z = { "<cmd>GHCollapseReview<cr>", "Collapse" },
+      },
+      p = {
+        name = "+Pull Request",
+        c = { "<cmd>GHClosePR<cr>", "Close" },
+        d = { "<cmd>GHPRDetails<cr>", "Details" },
+        e = { "<cmd>GHExpandPR<cr>", "Expand" },
+        o = { "<cmd>GHOpenPR<cr>", "Open" },
+        p = { "<cmd>GHPopOutPR<cr>", "PopOut" },
+        r = { "<cmd>GHRefreshPR<cr>", "Refresh" },
+        t = { "<cmd>GHOpenToPR<cr>", "Open To" },
+        z = { "<cmd>GHCollapsePR<cr>", "Collapse" },
+      },
+      t = {
+        name = "+Threads",
+        c = { "<cmd>GHCreateThread<cr>", "Create" },
+        n = { "<cmd>GHNextThread<cr>", "Next" },
+        t = { "<cmd>GHToggleThread<cr>", "Toggle" },
+      },
+    },
     u = {
       "<cmd>lua require 'gitsigns'.undo_stage_hunk()<cr>",
       "Undo Stage Hunk",
@@ -285,6 +356,7 @@ local mappings = {
       "<cmd>lua vim.diagnostic.goto_next({buffer=0})<CR>",
       "Next Diagnostic",
     },
+    ["<M-l>"] = { "<cmd>lua require('copilot.suggestion').accept()<cr>", "Accept Copilot Suggestions" },
     k = {
       "<cmd>lua vim.diagnostic.goto_prev({buffer=0})<cr>",
       "Prev Diagnostic",
@@ -329,7 +401,6 @@ local mappings = {
     t = { "<cmd>SnipRunToggle<cr>", "Toggle" },
     x = { "<cmd>SnipTerminate<cr>", "Terminate" },
   },
-  
   t = {
     name = "Test",
     t = { "<cmd>lua require('neotest').run.run(vim.fn.getcwd())<cr>", "Test Package" },
@@ -386,3 +457,4 @@ which_key.setup(setup)
 which_key.register(mappings, opts)
 which_key.register(vmappings, vopts)
 which_key.register(m_mappings, m_opts)
+which_key.register(ga_mappings, ga_opts)

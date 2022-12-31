@@ -11,8 +11,8 @@ keymap("n", "<Space>", "", opts)
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 keymap("n", "<C-Space>", "<cmd>WhichKey \\<leader><cr>", opts)
+-- Must add CSI u keymap in the alacritty file (in my case)
 keymap("n", "<C-i>", "<C-i>", opts)
-
 -- Modes
 --   normal_mode = "n",
 --   insert_mode = "i",
@@ -27,41 +27,12 @@ keymap("n", "<m-h>", "<C-w>h", opts)
 keymap("n", "<m-j>", "<C-w>j", opts)
 keymap("n", "<m-k>", "<C-w>k", opts)
 keymap("n", "<m-l>", "<C-w>l", opts)
-keymap("n", "<m-tab>", "<c-6>", opts)
-
--- Tabs --
-keymap("n", "<m-t>", ":tabnew %<cr>", opts)
-keymap("n", "<m-y>", ":tabclose<cr>", opts)
-keymap("n", "<m-\\>", ":tabonly<cr>", opts)
 
 -- Resize with arrows
 keymap("n", "<C-Up>", ":resize -2<CR>", opts)
 keymap("n", "<C-Down>", ":resize +2<CR>", opts)
 keymap("n", "<C-Left>", ":vertical resize -2<CR>", opts)
 keymap("n", "<C-Right>", ":vertical resize +2<CR>", opts)
-
--- I hate typing these
--- keymap("n", "H", "^", opts)
--- keymap("n", "L", "$", opts)
--- keymap("v", "H", "^", opts)
--- keymap("v", "L", "$", opts)
--- keymap("x", "H", "^", opts)
--- keymap("x", "L", "$", opts)
--- keymap("o", "H", "^", opts)
--- keymap("o", "L", "$", opts)
-
--- keymap("n", "n", "nzzzv", opts)
--- keymap("n", "N", "Nzzzv", opts)
-
--- Naviagate buffers
--- keymap("n", "<S-l>", ":bnext<CR>", opts)
--- keymap("n", "<S-h>", ":bprevious<CR>", opts)
-
--- keymap("n", "<RightMouse>", ":Alpha<CR>", opts)
-
--- Move text up and down
--- keymap("n", "<A-j>", "<Esc>:m .+1<CR>==gi", opts)
--- keymap("n", "<A-k>", "<Esc>:m .-2<CR>==gi", opts)
 
 -- Insert --
 -- Press jk fast to enter
@@ -84,23 +55,20 @@ keymap("v", "p", '"_dP', opts)
 -- keymap("x", "K", ":move '<-2<CR>gv-gv", opts)
 keymap("x", "<A-j>", ":move '>+1<CR>gv-gv", opts)
 keymap("x", "<A-k>", ":move '<-2<CR>gv-gv", opts)
-
--- Terminal --
--- Better terminal navigation
--- keymap("t", "<C-h>", "<C-\\><C-N><C-w>h", term_opts)
--- keymap("t", "<C-j>", "<C-\\><C-N><C-w>j", term_opts)
--- keymap("t", "<C-k>", "<C-\\><C-N><C-w>k", term_opts)
--- keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
+keymap("x", "y", "<Plug>(YankyYank)", opts)
 
 -- Custom
--- keymap("n", "<c-h>", "<cmd>nohlsearch<cr>", opts)
--- NOTE: the fact that tab and ctrl-i are the same is stupid
--- keymap("n", "<TAB>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
 keymap("n", "Q", "<cmd>Bdelete!<CR>", opts)
 keymap("n", "<F1>", ":e ~/Notes/<cr>", opts)
 keymap("n", "<F3>", ":e .<cr>", opts)
 keymap("n", "<F4>", "<cmd>Telescope resume<cr>", opts)
 keymap("n", "<F5>", "<cmd>Telescope commands<CR>", opts)
+
+-- Wordmotion (original wordmotion for _, -, camelCase, snakeCase)
+vim.cmd [[
+let g:wordmotion_mappings = { 'w' : 'iw' , 'aw' : '' }
+]]
+-- Highlight information
 keymap(
   "n",
   "<F6>",
@@ -112,29 +80,53 @@ keymap("n", "<F8>", "<cmd>lua require'dap'.step_over()<CR>", opts)
 keymap("n", "<F9>", "<cmd>lua require'dap'.run_to_cursor()<CR>", opts)
 keymap("n", "<F11>", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
 keymap("n", "<F12>", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
+keymap("n", "y", "<Plug>(YankyYank)", opts)
+keymap("n", "gas", "<cmd>lua require('textcase').current_word('to_snake_case')<CR>", opts)
+keymap("n", "-", ":lua require'lir.float'.toggle()<cr>", opts)
+
+-- Search selected text
 keymap("v", "//", [[y/\V<C-R>=escape(@",'/\')<CR><CR>]], opts)
-keymap("n", "<C-p>", "<cmd>Telescope projects<cr>", opts)
-keymap("n", "<C-t>", "<cmd>lua vim.lsp.buf.document_symbol()<cr>", opts)
--- keymap("n", "<C-s>", "<cmd>vsplit<cr>", opts)
-keymap("n", "<C-z>", "<cmd>ZenMode<cr>", opts)
+-- Open link in Browser
+keymap("n", "gx", [[:silent execute '!$BROWSER ' . shellescape(expand('<cfile>'), 1)<CR>]], opts)
+
+-- ctrl binds
+keymap("n", "<c-p>", "<cmd>Telescope projects<cr>", opts)
+-- keymap("n", "<c-t>", "<cmd>lua vim.lsp.buf.document_symbol()<cr>", opts)
+keymap("n", "<c-z>", "<cmd>ZenMode<cr>", opts)
+keymap("n", "<c-t>", "<cmd>TodoQuickFix<cr>", opts)
 keymap("n", "<c-n>", ":e ~/Notes/<cr>", opts)
 
-keymap("n", "-", ":lua require'lir.float'.toggle()<cr>", opts)
--- keymap("n", "<C-\\>", "<cmd>vsplit<cr>", opts)
--- vim.cmd[[nnoremap c* /\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgn]]
--- vim.cmd[[nnoremap c# ?\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgN]]
--- keymap("n", "c*", [[/\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgn]], opts)
--- keymap("n", "c#", [[?\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgN]], opts)
--- keymap("n", "gx", [[:execute '!brave ' . shellescape(expand('<cfile>'), 1)<CR>]], opts)
-keymap("n", "gx", [[:silent execute '!$BROWSER ' . shellescape(expand('<cfile>'), 1)<CR>]], opts)
--- Change '<CR>' to whatever shortcut you like :)
--- vim.api.nvim_set_keymap("n", "<CR>", "<cmd>NeoZoomToggle<CR>", { noremap = true, silent = true, nowait = true })
-vim.api.nvim_set_keymap("n", "=", "<cmd>JABSOpen<cr>", { noremap = true, silent = true, nowait = true })
-
 -- alt binds
--- keymap("n", "<m-s>", "<cmd>split<cr>", opts)
+keymap("n", "<m-y>", "<cmd>Telescope yank_history<CR>", opts)
+keymap("n", "<m-o>", 'o<Esc>0"_D', opts)
+keymap("n", "<m-O>", 'O<Esc>0"_D', opts)
 keymap("n", "<m-v>", "<cmd>lua require('lsp_lines').toggle()<cr>", opts)
--- keymap("n", "<m-q>", "<cmd>:q<cr>", opts)
+keymap("n", "<m-q>", ":call QuickFixToggle()<cr>", opts)
+keymap("n", "<m-g>", "<cmd>Telescope git_branches<cr>", opts)
+
+-- Harpoon
+keymap(
+  "n",
+  "<tab>",
+  "<cmd>lua require('telescope').extensions.harpoon.marks(require('telescope.themes').get_dropdown{previewer = false, initial_mode='normal', prompt_title='Harpoon'})<cr>",
+  opts
+)
+keymap(
+  "n",
+  "<s-tab>",
+  "<cmd>lua require('telescope.builtin').buffers(require('telescope.themes').get_dropdown{previewer = false, initial_mode='normal'})<cr>",
+  opts
+)
+
+vim.cmd [[
+  function! QuickFixToggle()
+    if empty(filter(getwininfo(), 'v:val.quickfix'))
+      copen
+    else
+      cclose
+    endif
+  endfunction
+]]
 
 M.show_documentation = function()
   local filetype = vim.bo.filetype
@@ -148,7 +140,21 @@ M.show_documentation = function()
     vim.lsp.buf.hover()
   end
 end
-vim.api.nvim_set_keymap("n", "K", ":lua require('user.keymaps').show_documentation()<CR>", opts)
+keymap("n", "K", ":lua require('user.keymaps').show_documentation()<CR>", opts)
+
+-- keymap("n", "<c-l>", "<cmd>lua vim.lsp.codelens.run()<cr>", opts)
+-- keymap("n", "<C-\\>", "<cmd>vsplit<cr>", opts)
+-- vim.cmd[[nnoremap c* /\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgn]]
+-- vim.cmd[[nnoremap c# ?\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgN]]
+-- keymap("n", "c*", [[/\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgn]], opts)
+-- keymap("n", "c#", [[?\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgN]], opts)
+-- keymap("n", "gx", [[:execute '!brave ' . shellescape(expand('<cfile>'), 1)<CR>]], opts)
+-- vim.api.nvim_set_keymap(
+--   "n",
+--   "<tab>",
+--   "<cmd>lua require('telescope.builtin').find_files(require('telescope.themes').get_dropdown{previewer = false})<cr>",
+--   opts
+-- )
 
 -- vim.api.nvim_set_keymap("n", "<m-b>", "<cmd>lua require('user.bfs').open()<cr>", opts)
 -- vim.api.nvim_set_keymap("n", "<m-b>", "<cmd>JABSOpen<cr>", opts)
@@ -159,47 +165,48 @@ vim.api.nvim_set_keymap("n", "K", ":lua require('user.keymaps').show_documentati
 --   "<cmd>lua require('telescope.builtin').find_files(require('telescope.themes').get_dropdown{previewer = false})<cr>",
 --   opts
 -- )
--- Comment
-keymap("n", "<m-/>", "<cmd>lua require('Comment.api').toggle_current_linewise()<CR>", opts)
-keymap("x", "<m-/>", '<ESC><CMD>lua require("Comment.api").toggle_linewise_op(vim.fn.visualmode())<CR>', opts)
-
--- vim.api.nvim_set_keymap(
---   "n",
---   "<tab>",
---   "<cmd>lua require('telescope.builtin').find_files(require('telescope.themes').get_dropdown{previewer = false})<cr>",
---   opts
--- )
 
 -- vim.api.nvim_set_keymap("n", "<tab>", "<cmd>lua require('telescope.builtin').extensions.harpoon.marks(require('telescope.themes').get_dropdown{previewer = false, initial_mode='normal'})<cr>", opts)
-
-vim.api.nvim_set_keymap(
-  "n",
-  "<tab>",
-  "<cmd>lua require('telescope').extensions.harpoon.marks(require('telescope.themes').get_dropdown{previewer = false, initial_mode='normal', prompt_title='Harpoon'})<cr>",
-  opts
-)
-vim.api.nvim_set_keymap(
-  "n",
-  "<s-tab>",
-  "<cmd>lua require('telescope.builtin').buffers(require('telescope.themes').get_dropdown{previewer = false, initial_mode='normal'})<cr>",
-  opts
-)
 -- vim.api.nvim_set_keymap("n", "<tab>", "<cmd>lua require('harpoon.ui').toggle_quick_menu()<cr>", opts)
-vim.api.nvim_set_keymap("n", "<m-g>", "<cmd>Telescope git_branches<cr>", opts)
-vim.api.nvim_set_keymap("n", "<C-t>", "<CMd>TodoQuickFix<cr>", opts)
--- l = { "<cmd>lua require('user.bfs').open()<cr>", "Buffers" },
+-- Change '<CR>' to whatever shortcut you like :)
+-- vim.api.nvim_set_keymap("n", "<CR>", "<cmd>NeoZoomToggle<CR>", { noremap = true, silent = true, nowait = true })
+-- Tabs --
+-- keymap("n", "<m-t>", ":tabnew %<cr>", opts)
+-- keymap("n", "<m-y>", ":tabclose<cr>", opts)
+-- keymap("n", "<m-\\>", ":tabonly<cr>", opts)
 
-vim.cmd [[
-  function! QuickFixToggle()
-    if empty(filter(getwininfo(), 'v:val.quickfix'))
-      copen
-    else
-      cclose
-    endif
-  endfunction
-]]
+-- I hate typing these
+-- keymap("n", "H", "^", opts)
+-- keymap("n", "L", "$", opts)
+-- keymap("v", "H", "^", opts)
+-- keymap("v", "L", "$", opts)
+-- keymap("x", "H", "^", opts)
+-- keymap("x", "L", "$", opts)
+-- keymap("o", "H", "^", opts)
+-- keymap("o", "L", "$", opts)
 
-keymap("n", "<m-q>", ":call QuickFixToggle()<cr>", opts)
-keymap("n", "<c-l>", "<cmd>lua vim.lsp.codelens.run()<cr>", opts)
+-- keymap("n", "n", "nzzzv", opts)
+-- keymap("n", "N", "Nzzzv", opts)
 
+-- Naviagate buffers
+-- keymap("n", "<S-l>", ":bnext<CR>", opts)
+-- keymap("n", "<S-h>", ":bprevious<CR>", opts)
+
+-- keymap("n", "<RightMouse>", ":Alpha<CR>", opts)
+-- Comment
+-- keymap("n", "<m-/>", "<cmd>lua require('Comment.api').toggle_current_linewise()<CR>", opts)
+-- keymap("x", "<m-/>", '<ESC><CMD>lua require("Comment.api").toggle_linewise_op(vim.fn.visualmode())<CR>', opts)
+-- keymap("n", "<m-s>", "<cmd>split<cr>", opts)
+-- keymap("n", "<c-h>", "<cmd>nohlsearch<cr>", opts)
+-- Terminal --
+-- Better terminal navigation
+-- keymap("t", "<C-h>", "<C-\\><C-N><C-w>h", term_opts)
+-- keymap("t", "<C-j>", "<C-\\><C-N><C-w>j", term_opts)
+-- keymap("t", "<C-k>", "<C-\\><C-N><C-w>k", term_opts)
+-- keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
+-- NOTE: the fact that tab and ctrl-i are the same is stupid
+-- keymap("n", "<TAB>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
+-- Move text up and down
+-- keymap("n", "<A-j>", "<Esc>:m .+1<CR>==gi", opts)
+-- keymap("n", "<A-k>", "<Esc>:m .-2<CR>==gi", opts)
 return M

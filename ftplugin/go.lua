@@ -39,6 +39,7 @@ local mappings = {
     m = { "<cmd>GoModReload<CR>", "Mod Tidy" },
     C = { "<cmd>GoClearTag<CR>", "Clear Tag" },
     s = { "<cmd>GoFillStruct<CR>", "Fill Struct" },
+    w = { "<cmd>GoTestPackageOnSave<CR>", "Test On Save" },
   },
 }
 
