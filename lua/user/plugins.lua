@@ -96,6 +96,7 @@ return packer.startup(function(use)
   use "L3MON4D3/LuaSnip" --snippet engine
   use "rafamadriz/friendly-snippets" -- a bunch of snippets to use
 
+  -- Refactor
   use {
     "ThePrimeagen/refactoring.nvim",
     requires = {
@@ -149,6 +150,18 @@ return packer.startup(function(use)
   use "moll/vim-bbye"
   use "lewis6991/impatient.nvim"
   use "lalitmee/browse.nvim"
+  use {
+    "johmsalas/text-case.nvim",
+    config = function()
+      require("textcase").setup {}
+    end,
+  }
+  use {
+    "folke/twilight.nvim",
+    config = function()
+      require("twilight").setup {}
+    end,
+  }
 
   -- Registers
   use "tversteeg/registers.nvim"
@@ -174,6 +187,27 @@ return packer.startup(function(use)
 
   -- Indent
   use "lukas-reineke/indent-blankline.nvim"
+
+  -- Yank and Put
+  use {
+    "gbprod/yanky.nvim",
+    requires = {
+      { "nvim-telescope/telescope.nvim" },
+    },
+    config = function()
+      require("yanky").setup {
+        ring = {
+          storage = "shada",
+        },
+      }
+      require("telescope").load_extension "yank_history"
+    end,
+  }
+  -- Fold
+  use { "kevinhwang91/nvim-ufo", requires = "kevinhwang91/promise-async" }
+
+  -- Translate
+  use "potamides/pantran.nvim"
 
   -- File Explorer
   use "kyazdani42/nvim-tree.lua"
@@ -225,6 +259,10 @@ return packer.startup(function(use)
   use "ruifm/gitlinker.nvim"
   use "mattn/vim-gist"
   use "mattn/webapi-vim"
+  use {
+    "ldelossa/gh.nvim",
+    requires = { { "ldelossa/litee.nvim" } },
+  }
 
   -- Github
   use "pwntester/octo.nvim"
@@ -241,6 +279,7 @@ return packer.startup(function(use)
 
   -- Motion
   use "phaazon/hop.nvim"
+  use "chaoren/vim-wordmotion" -- Better Word Motions
   -- use "jinh0/eyeliner.nvim"
 
   -- Keybinding
@@ -282,6 +321,10 @@ return packer.startup(function(use)
     config = function()
       require("telescope").load_extension "goimpl"
     end,
+  }
+  use {
+    "nachonievag/go-tester.nvim",
+    requires = { { "nvim-treesitter/nvim-treesitter" } },
   }
 
   -- Graveyard

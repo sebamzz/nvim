@@ -116,4 +116,18 @@ function M.smart_quit()
   end
 end
 
+local toBool = {
+  ["5"] = true,
+  ["0"] = false,
+}
+function M.toggle_fold_column()
+  if toBool[vim.opt.foldcolumn:get()] then
+    vim.opt.foldcolumn = "0"
+  else
+    vim.opt.foldcolumn = "5"
+  end
+
+  vim.notify("foldcolumn" .. " set to " .. tostring(toBool[vim.opt.foldcolumn:get()]))
+end
+
 return M
