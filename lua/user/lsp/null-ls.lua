@@ -26,7 +26,7 @@ null_ls.setup {
     formatting.gofmt,
     formatting.goimports,
     diagnostics.golangci_lint.with {
-      extra_args = { "--enable-all" },
+      extra_args = { "--enable-all" , "-D", "testpackage", "-E", "errcheck"},
     },
   },
 }
