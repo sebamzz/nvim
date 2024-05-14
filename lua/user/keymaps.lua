@@ -21,6 +21,10 @@ keymap("n", "#", "#zz", opts)
 keymap("n", "g*", "g*zz", opts)
 keymap("n", "g#", "g#zz", opts)
 
+-- Resize windows
+keymap("n", "<C-L>", ":vertical resize +2<CR>", opts)
+keymap("n", "<C-H>", ":vertical resize -2<CR>", opts)
+
 -- Stay in indent mode
 keymap("v", "<", "<gv", opts)
 keymap("v", ">", ">gv", opts)
@@ -29,6 +33,7 @@ keymap("x", "p", [["_dP]])
 
 vim.cmd [[:amenu 10.100 mousemenu.Goto\ Definition <cmd>lua vim.lsp.buf.definition()<CR>]]
 vim.cmd [[:amenu 10.110 mousemenu.References <cmd>lua vim.lsp.buf.references()<CR>]]
+vim.cmd [[:amenu 10.110 mousemenu.Breakpoint <cmd>lua require'dap'.toggle_breakpoint()<CR>]]
 -- vim.cmd [[:amenu 10.120 mousemenu.-sep- *]]
 
 vim.keymap.set("n", "<RightMouse>", "<cmd>:popup mousemenu<CR>")
@@ -45,3 +50,9 @@ keymap("n", "<leader>w", ":lua vim.wo.wrap = not vim.wo.wrap<CR>", opts)
 
 
 vim.api.nvim_set_keymap('t', '<C-;>', '<C-\\><C-n>', opts)
+
+-- Debugging
+keymap("n", "<F7>", "<cmd>lua require'dap'.step_into()<cr>", opts)
+keymap("n", "<F8>", "<cmd>lua require'dap'.step_over()<cr>", opts)
+keymap("x", "<leader>de", "<cmd>lua require'dapui'.eval()<cr>", opts)
+keymap("v", "<leader>de", "<cmd>lua require'dapui'.eval()<cr>", opts)

@@ -3,6 +3,7 @@ local M = {
   dependencies = {
     "williamboman/mason.nvim",
     "nvim-lua/plenary.nvim",
+    "jay-babu/mason-nvim-dap.nvim",
   },
 }
 
@@ -20,6 +21,7 @@ M.execs = {
   "tailwindcss",
   "rust_analyzer",
   "eslint",
+  "gopls",
 }
 
 function M.config()
@@ -35,6 +37,12 @@ function M.config()
   }
   require("mason-lspconfig").setup {
     ensure_installed = M.execs,
+  }
+
+  require("mason-nvim-dap").setup {
+    ensure_installed = {'node2', 'js'},
+    handlers = {},
+    automatic_installation = false,
   }
 end
 

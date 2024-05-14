@@ -144,6 +144,7 @@ return {
     BoldHint = "",
     Hint = "󰌶",
     Debug = "",
+    DebugConditionalBreakpoint = "󱠪",
     Trace = "✎",
   },
   misc = {

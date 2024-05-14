@@ -12,7 +12,7 @@ local function lsp_keymaps(bufnr)
   local opts = { noremap = true, silent = true }
   local keymap = vim.api.nvim_buf_set_keymap
   keymap(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
-  keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
+  keymap(bufnr, "n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts)
   -- keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
   vim.keymap.set("n", "K", function()
     local winid = require("ufo").peekFoldedLinesUnderCursor()
@@ -21,7 +21,8 @@ local function lsp_keymaps(bufnr)
     end
   end)
   keymap(bufnr, "n", "gI", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
-  keymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
+  keymap(bufnr, "n", "gr", "<cmd>Telescope lsp_references<CR>", opts)
+  keymap(bufnr, "n", "gc", "<cmd>Telescope lsp_incoming_calls<CR>", opts)
   keymap(bufnr, "n", "gl", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
 end
 
@@ -35,7 +36,7 @@ end
 
 M.toggle_inlay_hints = function()
   local bufnr = vim.api.nvim_get_current_buf()
-  vim.lsp.inlay_hint.enable(bufnr, not vim.lsp.inlay_hint.is_enabled(bufnr))
+  vim.lsp.inlay_hint.enable(bufnr, not vim.lsp.inlay_hint.is_enabled({}))
 end
 
 function M.common_capabilities()
@@ -103,6 +104,7 @@ function M.config()
     "tailwindcss",
     "eslint",
     "taplo",
+    "gopls",
     -- "rust_analyzer",
   }
 

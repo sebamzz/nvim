@@ -18,6 +18,8 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
     "lir",
     "DressingSelect",
     "tsplayground",
+    "neotest-output",
+    "neotest-summary",
     "",
   },
   callback = function()

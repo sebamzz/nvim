@@ -17,7 +17,7 @@ function M.config()
   }
 
   require("nvim-treesitter.configs").setup {
-    ensure_installed = { "lua", "markdown", "markdown_inline", "bash", "python" }, -- put the language you want in this array
+    ensure_installed = { "lua", "markdown", "markdown_inline", "bash", "python", "c", "vim", "javascript", "go" }, -- put the language you want in this array
     ignore_install = { "" },
     sync_install = false,
     highlight = {
@@ -33,6 +33,26 @@ function M.config()
     },
     autopairs = { enable = true },
     textobjects = {
+      move = {
+        enable = true,
+        set_jumps = true, -- whether to set jumps in the jumplist
+        goto_next_start = {
+          ["<M-Down>"] = "@function.outer",
+          ["]]"] = "@class.outer",
+        },
+        goto_next_end = {
+          ["]m"] = "@function.outer",
+          ["]["] = "@class.outer",
+        },
+        goto_previous_start = {
+          ["<M-Up>"] = "@function.outer",
+          ["[["] = "@class.outer",
+        },
+        goto_previous_end = {
+          ["[m"] = "@function.outer",
+          ["[]"] = "@class.outer",
+        },
+      },
       select = {
         enable = true,
         -- Automatically jump forward to textobj, similar to targets.vim
