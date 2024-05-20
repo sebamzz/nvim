@@ -20,6 +20,10 @@ function M.config()
       -- formatting.eslint,
       -- null_ls.builtins.diagnostics.eslint,
       null_ls.builtins.completion.spell,
+      null_ls.builtins.diagnostics.golangci_lint.with {
+        filetypes = { "go" },
+        extra_args = { "-p", "comment", "-p", "complexity", "-p", "error" , "-p", "format" , "-p", "import" , "-p", "metalinter" , "-p", "module" , "-p", "performance", "-p", "sql", "-p", "style", "-p", "test", "-p", "unused" },
+      },
     },
   }
 end

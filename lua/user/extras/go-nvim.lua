@@ -12,6 +12,7 @@ local M = {
 
 function M.config()
   require("go").setup({
+    lsp_cfg = false,
     diagnostic = false,  -- show diagnostics
   })
 end
