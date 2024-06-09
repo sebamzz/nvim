@@ -17,7 +17,7 @@ local function lsp_keymaps(bufnr)
   vim.keymap.set("n", "K", function()
     local winid = require("ufo").peekFoldedLinesUnderCursor()
     if not winid then
-      vim.lsp.buf.hover()
+      require("pretty_hover").hover() 
     end
   end)
   keymap(bufnr, "n", "gI", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
@@ -119,7 +119,7 @@ function M.config()
       },
     },
     virtual_text = false,
-    update_in_insert = false,
+    update_in_insert = true,
     underline = true,
     severity_sort = true,
     float = {
