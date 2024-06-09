@@ -17,7 +17,7 @@ function M.config()
   }
 
   require("nvim-treesitter.configs").setup {
-    ensure_installed = { "lua", "markdown", "markdown_inline", "bash", "python", "c", "vim", "javascript", "go" }, -- put the language you want in this array
+    ensure_installed = { "lua", "markdown", "markdown_inline", "bash", "python", "c", "vim", "javascript", "go", "vimdoc" }, -- put the language you want in this array
     ignore_install = { "" },
     sync_install = false,
     highlight = {
@@ -32,6 +32,15 @@ function M.config()
       disable = { "yaml" },
     },
     autopairs = { enable = true },
+    incremental_selection = {
+      enable = true,
+      keymaps = {
+        -- init_selection = "<c-space>",
+        node_incremental = "v",
+        node_decremental = "V",
+        -- scope_incremental = "<c-s>",
+      },
+    },
     textobjects = {
       move = {
         enable = true,
@@ -81,6 +90,8 @@ function M.config()
           ["iA"] = "@attribute.inner",
           ["aF"] = "@frame.outer",
           ["iF"] = "@frame.inner",
+          ["ak"] = "@assignment.lhs",
+          ["av"] = "@assignment.rhs",
         },
       },
     },
