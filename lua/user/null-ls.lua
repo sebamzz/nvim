@@ -7,6 +7,74 @@ function M.config()
 
   local formatting = null_ls.builtins.formatting
 
+  local linters = {
+    "--disable-all",
+    "-E", "bodyclose",
+    "-E", "bidichk",
+    "-E", "decorder",
+    "-E", "containedctx",
+    "-E", "contextcheck",
+    "-E", "dogsled",
+    "-E", "dupl",
+    "-E", "errcheck",
+    "-E", "errchkjson",
+    "-E", "errname",
+    "-E", "execinquery",
+    "-E", "errorlint",
+    "-E", "exportloopref",
+    "-E", "exhaustive",
+    "-E", "goconst",
+    "-E", "godot",
+    "-E", "gocritic",
+    "-E", "gofmt",
+    "-E", "goimports",
+    "-E", "gomnd",
+    "-E", "gocyclo",
+    "-E", "goprintffuncname",
+    "-E", "gosec",
+    "-E", "gosimple",
+    "-E", "govet",
+    "-E", "ireturn",
+    "-E", "ineffassign",
+    "-E", "misspell",
+    "-E", "nestif",
+    "-E", "nilerr",
+    "-E", "nilnil",
+    "-E", "nolintlint",
+    "-E", "prealloc",
+    "-E", "predeclared",
+    "-E", "revive",
+    "-E", "staticcheck",
+    "-E", "stylecheck",
+    "-E", "thelper",
+    "-E", "tagliatelle",
+    "-E", "tparallel",
+    "-E", "testpackage",
+    "-E", "tenv",
+    "-E", "typecheck",
+    "-E", "unconvert",
+    "-E", "usestdlibvars",
+    "-E", "unparam",
+    "-E", "unused",
+    "-E", "whitespace",
+    "-E", "wsl"
+  }
+
+  -- local presets = {
+  --   "-p", "comment",
+  --   "-p", "complexity",
+  --   "-p", "error" ,
+  --   "-p", "format",
+  --   "-p", "import",
+  --   "-p", "metalinter",
+  --   "-p", "module",
+  --   "-p", "performance",
+  --   "-p", "sql",
+  --   "-p", "style",
+  --   "-p", "test",
+  --   "-p", "unused"
+  -- }
+
   null_ls.setup {
     debug = true,
     sources = {
@@ -19,10 +87,10 @@ function M.config()
       -- },
       -- formatting.eslint,
       -- null_ls.builtins.diagnostics.eslint,
-      null_ls.builtins.completion.spell,
+      -- null_ls.builtins.completion.spell,
       null_ls.builtins.diagnostics.golangci_lint.with {
         filetypes = { "go" },
-        extra_args = { "-p", "comment", "-p", "complexity", "-p", "error" , "-p", "format" , "-p", "import" , "-p", "metalinter" , "-p", "module" , "-p", "performance", "-p", "sql", "-p", "style", "-p", "test", "-p", "unused" },
+        extra_args = linters,
       },
     },
   }

@@ -52,3 +52,36 @@ vim.cmd [[set iskeyword+=-]]
 
 vim.g.netrw_banner = 0
 vim.g.netrw_mouse = 2
+
+-- make zsh files recognized as sh for bash-ls & treesitter
+vim.filetype.add {
+	extension = {
+		zsh = "sh",
+		sh = "sh", -- force sh-files with zsh-shebang to still get sh as filetype
+	},
+	filename = {
+		[".zshrc"] = "sh",
+		[".zshenv"] = "sh",
+	},
+}
+
+
+vim.opt.foldopen:remove { "search" } -- no auto-open when searching, since the following snippet does that better
+
+vim.keymap.set("n", "/", "zn/", { desc = "Search & Pause Folds" })
+vim.on_key(function(char)
+	local key = vim.fn.keytrans(char)
+	local searchKeys = { "n", "N", "*", "#", "/", "?" }
+	local searchConfirmed = (key == "<CR>" and vim.fn.getcmdtype():find("[/?]") ~= nil)
+	if not (searchConfirmed or vim.fn.mode() == "n") then return end
+	local searchKeyUsed = searchConfirmed or (vim.tbl_contains(searchKeys, key))
+
+	local pauseFold = vim.opt.foldenable:get() and searchKeyUsed
+	local unpauseFold = not (vim.opt.foldenable:get()) and not searchKeyUsed
+	if pauseFold then
+		vim.opt.foldenable = false
+	elseif unpauseFold then
+		vim.opt.foldenable = true
+		vim.cmd.normal("zv") -- after closing folds, keep the *current* fold open
+	end
+end, vim.api.nvim_create_namespace("auto_pause_folds"))
