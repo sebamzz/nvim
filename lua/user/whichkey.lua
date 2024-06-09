@@ -26,6 +26,16 @@ function M.config()
       l = { "<cmd>+tabmove<cr>", "Move Right" },
     },
     T = { name = "Treesitter" },
+    c = {
+      name = "Copilot Chat",
+      g = {
+        name = "CopilotChat Keybindings",
+        d = "Show diff",
+        p = "System prompt",
+        s = "Show selection",
+        y = "Yank diff",
+      },
+    },
   }
 
   local which_key = require "which-key"
