@@ -327,6 +327,23 @@ function M.config()
     },
   }
 
+  cmp.setup.cmdline( ':',
+    {
+      mapping = cmp.mapping.preset.cmdline(),
+      sources = {
+        { name = "cmdline" },
+        { name = "path" },
+      },
+    })
+
+  cmp.setup.cmdline( {'?', '/'},
+    {
+      mapping = cmp.mapping.preset.cmdline(),
+      sources = {
+        { name = "buffer" },
+      },
+    })
+
   pcall(function()
     -- local function on_confirm_done(...)
     --   require("nvim-autopairs.completion.cmp").on_confirm_done()(...)
