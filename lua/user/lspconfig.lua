@@ -30,12 +30,13 @@ M.on_attach = function(client, bufnr)
   lsp_keymaps(bufnr)
 
   if client.supports_method "textDocument/inlayHint" then
-    vim.lsp.inlay_hint.enable(true)
+    vim.lsp.inlay_hint.enable(bufnr, true)
   end
 end
 
 M.toggle_inlay_hints = function()
-  vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled {})
+  local bufnr = vim.api.nvim_get_current_buf()
+  vim.lsp.inlay_hint.enable(bufnr, not vim.lsp.inlay_hint.is_enabled())
 end
 
 function M.common_capabilities()
