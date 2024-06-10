@@ -20,6 +20,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
     "tsplayground",
     "neotest-output",
     "neotest-summary",
+    "query",
     "",
   },
   callback = function()
