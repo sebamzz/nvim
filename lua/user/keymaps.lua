@@ -56,3 +56,33 @@ keymap("n", "<F7>", "<cmd>lua require'dap'.step_into()<cr>", opts)
 keymap("n", "<F8>", "<cmd>lua require'dap'.step_over()<cr>", opts)
 keymap("x", "<leader>de", "<cmd>lua require'dapui'.eval()<cr>", opts)
 keymap("v", "<leader>de", "<cmd>lua require'dapui'.eval()<cr>", opts)
+
+--Insert mode paste: no more newline
+keymap("i", "<C-v>", function()
+    local api = vim.api
+    local cur_line = api.nvim_get_current_line()
+    local _, first_char = cur_line:find("^%s*")
+    local row, col = unpack(api.nvim_win_get_cursor(0))
+    local s = api.nvim_buf_get_text(0, row - 1, 0, row - 1, col, {})[1]
+    local e = api.nvim_buf_get_text(0, row - 1, col, row - 1, #cur_line, {})[1]
+    local is_empty = first_char == col
+    local body = vim.fn.getreg('"')
+    local lines = vim.split(body, "\n", { plain = false, trimempty = true })
+    if #lines == 1 then
+        api.nvim_put({ vim.trim(body) }, "c", false, true)
+    else
+        local last_col = #lines[#lines]
+        if not is_empty then
+            lines[1] = s .. vim.trim(lines[1])
+        end
+        lines[#lines] = lines[#lines] .. e
+        vim.cmd('norm! "_dd')
+        api.nvim_win_set_cursor(0, { row == 1 and 1 or row - 1, 0 })
+        if row == 1 then
+            api.nvim_put(lines, "l", false, true)
+        else
+            api.nvim_put(lines, "l", true, true)
+        end
+        api.nvim_win_set_cursor(0, { row + #lines - 1, last_col })
+    end
+end, opts)
