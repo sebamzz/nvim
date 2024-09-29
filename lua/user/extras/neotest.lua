@@ -22,14 +22,42 @@ local M = {
 
 function M.config()
   local wk = require "which-key"
-  wk.register {
-    ["<leader>tt"] = { "<cmd>w<cr><cmd>lua require'neotest'.run.run()<cr>", "Test Nearest" },
-    ["<leader>tf"] = { "<cmd>w<cr><cmd>lua require('neotest').run.run(vim.fn.expand('%'))<cr>", "Test File" },
-    ["<leader>td"] = { "<cmd>lua require('neotest').run.run({strategy = 'dap'})<cr>", "Debug Test" },
-    ["<leader>ts"] = { "<cmd>Neotest summary<cr>", "Test Summary" },
-    ["<leader>to"] = { "<cmd>lua require('neotest').output.open({ enter = true })<cr>", "Test Output" },
-    -- ["<leader>ts"] = { "<cmd>lua require('neotest').run.stop()<cr>", "Test Stop" },
-    ["<leader>ta"] = { "<cmd>lua require('neotest').run.attach()<cr>", "Attach Test" },
+  wk.add {
+    {
+      "<leader>tt",
+      "<cmd>lua require'neotest'.run.run()<cr>",
+      desc = "Test Nearest",
+    },
+    {
+      "<leader>tf",
+      "<cmd>lua require('neotest').run.run(vim.fn.expand('%'))<cr>",
+      desc = "Test File",
+    },
+    {
+      "<leader>td",
+      "<cmd>lua require('neotest').run.run({strategy = 'dap'})<cr>",
+      desc = "Debug Test",
+    },
+    {
+      "<leader>ts",
+      "<cmd>lua require('neotest').run.stop()<cr>",
+      desc = "Test Stop",
+    },
+    {
+      "<leader>ta",
+      "<cmd>lua require('neotest').run.attach()<cr>",
+      desc = "Attach Test",
+    },
+    {
+      "<leader>ts",
+      "<cmd>Neotest summary<cr>",
+      desc = "Test Summary",
+    },
+    {
+      "<leader>to",
+      "<cmd>lua require('neotest').output.open({ enter = true })<cr>",
+      desc = "Test Output",
+    },
   }
 
   ---@diagnostic disable: missing-fields

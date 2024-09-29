@@ -1,0 +1,23 @@
+local M = {
+  "eandrju/cellular-automaton.nvim",
+}
+
+function M.config()
+  local wk = require "which-key"
+<<<<<<< HEAD
+  wk.register {
+    ["<leader>y"] = { "<cmd>CellularAutomaton make_it_rain<CR>", "Cellular Automaton" },
+=======
+
+  wk.add {
+    {
+      "<leader>y",
+      "<cmd>CellularAutomaton make_it_rain<CR>",
+      desc = "Rain",
+      hidden = true,
+    },
+>>>>>>> master
+  }
+end
+
+return M

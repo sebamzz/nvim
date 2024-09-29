@@ -18,28 +18,27 @@ local prompts = {
 }
 
 local M = {
-    "CopilotC-Nvim/CopilotChat.nvim",
-    branch = "canary",
-    dependencies = {
-      { "zbirenbaum/copilot.lua" }, -- or github/copilot.vim
-      { "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
-    },
-    opts = {
-      debug = true, -- Enable debugging
-      question_header = "## User ",
-      answer_header = "## Copilot ",
-      error_header = "## Error ",
-      prompts = prompts,
-      auto_follow_cursor = false, -- Don't follow the cursor after getting response
-      language = "es", -- Language for the prompt
-    },
-    -- See Commands section for default commands if you want to lazy load on them
+  "CopilotC-Nvim/CopilotChat.nvim",
+  branch = "canary",
+  dependencies = {
+    { "zbirenbaum/copilot.lua" }, -- or github/copilot.vim
+    { "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
+  },
+  opts = {
+    debug = true, -- Enable debugging
+    question_header = "## User ",
+    answer_header = "## Copilot ",
+    error_header = "## Error ",
+    prompts = prompts,
+    auto_follow_cursor = false, -- Don't follow the cursor after getting response
+    language = "es", -- Language for the prompt
+  },
+  -- See Commands section for default commands if you want to lazy load on them
 }
 
-
 function M.config(_, opts)
-  local chat = require("CopilotChat")
-  local select = require("CopilotChat.select")
+  local chat = require "CopilotChat"
+  local select = require "CopilotChat.select"
 
   -- Override the git prompts message
   opts.prompts.Commit = {
@@ -54,7 +53,6 @@ function M.config(_, opts)
   }
 
   chat.setup(opts)
-
 
   require("CopilotChat.integrations.cmp").setup()
 
@@ -97,83 +95,95 @@ function M.config(_, opts)
   })
 
   local wk = require "which-key"
-  wk.register {
-    ["<leader>ch"] = {
+  wk.add {
+    {
+      "<leader>ch",
       function()
-        local actions = require("CopilotChat.actions")
+        local actions = require "CopilotChat.actions"
         require("CopilotChat.integrations.telescope").pick(actions.help_actions())
       end,
-      "Help actions",
+      desc = "Help actions",
     },
-    ["<leader>cp"] = {
+    {
+      "<leader>cp",
       function()
-        local actions = require("CopilotChat.actions")
+        local actions = require "CopilotChat.actions"
         require("CopilotChat.integrations.telescope").pick(actions.prompt_actions())
       end,
-      "Prompt actions",
+      desc = "Prompt actions",
     },
-    ["<leader>ci"] = {
+    {
+      "<leader>ci",
       function()
-        local input = vim.fn.input("Ask Copilot: ")
+        local input = vim.fn.input "Ask Copilot: "
         if input ~= "" then
           vim.cmd("CopilotChat " .. input)
         end
       end,
-      "Ask input",
+      desc = "Ask input",
     },
-    ["<leader>cm"] = {
+    {
+      "<leader>cm",
       "<cmd>CopilotChatCommit<cr>",
-      "Generate commit message for all changes",
+      desc = "Generate commit message for all changes",
     },
-    ["<leader>cM"] = {
+    {
+      "<leader>cM",
       "<cmd>CopilotChatCommitStaged<cr>",
-      "Generate commit message for staged changes",
+      desc = "Generate commit message for staged changes",
     },
-    ["<leader>cq"] = {
+    {
+      "<leader>cq",
       function()
-        local input = vim.fn.input("Quick Chat: ")
+        local input = vim.fn.input "Quick Chat: "
         if input ~= "" then
           vim.cmd("CopilotChatBuffer " .. input)
         end
       end,
-      "Quick chat",
+      desc = "Quick chat",
     },
-    ["<leader>ce"] = {"<cmd>CopilotChatExplain<cr>", "Explain code" },
-    ["<leader>ct"] = {"<cmd>CopilotChatTests<cr>", "Generate tests" },
-    ["<leader>cr"] = {"ggVGy<cmd>CopilotChatReview<cr>", "Review code" },
-    ["<leader>cR"] = {"ggVGy<cmd>CopilotChatRefactor<cr>", "Refactor code" },
-    ["<leader>cn"] = {"<cmd>CopilotChatBetterNamings<cr>", "Better Naming" },
-    ["<leader>cd"] = {"<cmd>CopilotChatDebugInfo<cr>", "Debug Info" },
-    ["<leader>cf"] = {"<cmd>CopilotChatFixDiagnostic<cr>", "Fix Diagnostic" },
-    ["<leader>cl"] = {"<cmd>CopilotChatReset<cr>", "Clear buffer and chat history" },
-    ["<leader>cv"] = {"<cmd>CopilotChatToggle<cr>", "Toggle" },
+    { "<leader>ce", "<cmd>CopilotChatExplain<cr>", desc = "Explain code" },
+    { "<leader>ct", "<cmd>CopilotChatTests<cr>", desc = "Generate tests" },
+    { "<leader>cr", "ggVGy<cmd>CopilotChatReview<cr>", desc = "Review code" },
+    { "<leader>cR", "ggVGy<cmd>CopilotChatRefactor<cr>", desc = "Refactor code" },
+    { "<leader>cn", "<cmd>CopilotChatBetterNamings<cr>", desc = "Better Naming" },
+    { "<leader>cd", "<cmd>CopilotChatDebugInfo<cr>", desc = "Debug Info" },
+    { "<leader>cf", "<cmd>CopilotChatFixDiagnostic<cr>", desc = "Fix Diagnostic" },
+    { "<leader>cl", "<cmd>CopilotChatReset<cr>", desc = "Clear buffer and chat history" },
+    { "<leader>cv", "<cmd>CopilotChatToggle<cr>", desc = "Toggle" },
   }
 
-  wk.register {
-    ["<leader>c"] = {
-      name = "Copilot Chat",
-      p = {
-        ":lua require('CopilotChat.integrations.telescope').pick(require('CopilotChat.actions').prompt_actions({selection = require('CopilotChat.select').visual}))<CR>",
-        "Prompt actions",
-      },
-      v = {
-        "<cmd>CopilotChatVisual<cr>",
-        "Open in vertical split",
-      },
-      x = {
-        "<cmd>CopilotChatInline<cr>",
-        "Inline chat",
-      },
-      r = {
-        "<cmd>CopilotChatRefactor<cr>",
-        "Refactor",
-      },
+  wk.add {
+    {
+      "<leader>c",
+      group = "Copilot Chat",
       mode = "x",
-    }
+    },
+    {
+      "<leader>cp",
+      ":lua require('CopilotChat.integrations.telescope').pick(require('CopilotChat.actions').prompt_actions({selection = require('CopilotChat.select').visual}))<CR>",
+      desc = "Prompt actions",
+      mode = "x",
+    },
+    {
+      "<leader>cv",
+      "<cmd>CopilotChatVisual<cr>",
+      desc = "Open in vertical split",
+      mode = "x",
+    },
+    {
+      "<leader>cx",
+      "<cmd>CopilotChatInline<cr>",
+      desc = "Inline chat",
+      mode = "x",
+    },
+    {
+      "<leader>cr",
+      "<cmd>CopilotChatRefactor<cr>",
+      desc = "Refactor",
+      mode = "x",
+    },
   }
-
-
 end
 
 return M
-

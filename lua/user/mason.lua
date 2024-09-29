@@ -11,7 +11,7 @@ M.execs = {
   "lua_ls",
   "cssls",
   "html",
-  "tsserver",
+  -- "tsserver",
   "astro",
   "pyright",
   "bashls",
@@ -26,8 +26,8 @@ M.execs = {
 
 function M.config()
   local wk = require "which-key"
-  wk.register {
-    ["<leader>lI"] = { "<cmd>Mason<cr>", "Mason Info" },
+  wk.add {
+    { "<leader>lI", "<cmd>Mason<cr>", desc = "Mason Info" },
   }
 
   require("mason").setup {

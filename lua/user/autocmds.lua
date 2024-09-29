@@ -113,7 +113,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     local bufnr = args.buf
     local client = vim.lsp.get_client_by_id(args.data.client_id)
 
-    if client.name == "gopls" then
+    if client ~= nil and client.name == "gopls" then
       -- hack: Preflight async request to gopls, which can prevent blocking when save buffer on first time opened
       golang_organize_imports(bufnr, true)
 
@@ -125,6 +125,18 @@ vim.api.nvim_create_autocmd("LspAttach", {
           vim.lsp.buf.format { async = false, id = args.data.client_id }
         end,
       })
+    end
+  end,
+})
+
+-- Go to last location when opening a buffer
+vim.api.nvim_create_autocmd("BufReadPost", {
+  group = vim.api.nvim_create_augroup("last_loc", {}),
+  callback = function()
+    local mark = vim.api.nvim_buf_get_mark(0, '"')
+    local lcount = vim.api.nvim_buf_line_count(0)
+    if mark[1] > 0 and mark[1] <= lcount then
+      pcall(vim.api.nvim_win_set_cursor, 0, mark)
     end
   end,
 })

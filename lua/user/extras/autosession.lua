@@ -48,11 +48,38 @@ function M.config()
     },
   }
 
+  local wk = require "which-key"
+  wk.add {
+    {
+      "<leader>s",
+      group = "Session",
+    },
+    {
+      "<leader>ss",
+      "<cmd>SessionSearch<CR>",
+      desc = "Search Session",
+    },
+    {
+      "<leader>sw",
+      "<cmd>SessionSave<CR>",
+      desc = "Save Session",
+    },
+    {
+      "<leader>sd",
+      "<cmd>SessionDelete<CR>",
+      desc = "Delete Session",
+    },
+    {
+      "<leader>st",
+      "<cmd>SessionToggleAutoSave<CR>",
+      desc = "Toggle autosave",
+    },
+  }
   -- Set mapping for searching a session.
   -- ⚠️ This will only work if Telescope.nvim is installed
-  vim.keymap.set("n", "<C-s>", require("auto-session.session-lens").search_session, {
-    noremap = true,
-  })
+  -- vim.keymap.set("n", "<C-s>", require("auto-session.session-lens").search_session, {
+  --   noremap = true,
+  -- })
 end
 
 return M

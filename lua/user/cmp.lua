@@ -38,6 +38,9 @@ local M = {
     {
       "roobert/tailwindcss-colorizer-cmp.nvim",
     },
+    {
+      "rcarriga/cmp-dap",
+    },
   },
   event = "InsertEnter",
 }
@@ -98,7 +101,7 @@ function M.config()
       ["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs(-1), { "i", "c" }),
       ["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(1), { "i", "c" }),
       ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
-      ["<C-e>"] = cmp.mapping {
+      ["<C-c>"] = cmp.mapping {
         i = cmp.mapping.abort(),
         c = cmp.mapping.close(),
       },
@@ -265,7 +268,7 @@ function M.config()
       end,
     },
     sources = {
-      { name = "copilot" },
+      -- { name = "copilot" },
       {
         name = "nvim_lsp",
         entry_filter = function(entry, ctx)
@@ -328,22 +331,20 @@ function M.config()
     },
   }
 
-  cmp.setup.cmdline( ':',
-    {
-      mapping = cmp.mapping.preset.cmdline(),
-      sources = {
-        { name = "cmdline" },
-        { name = "path" },
-      },
-    })
+  cmp.setup.cmdline(":", {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = {
+      { name = "cmdline" },
+      { name = "path" },
+    },
+  })
 
-  cmp.setup.cmdline( {'?', '/'},
-    {
-      mapping = cmp.mapping.preset.cmdline(),
-      sources = {
-        { name = "buffer" },
-      },
-    })
+  cmp.setup.cmdline({ "?", "/" }, {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = {
+      { name = "buffer" },
+    },
+  })
 
   pcall(function()
     -- local function on_confirm_done(...)

@@ -3,7 +3,15 @@ local M = {
 }
 
 function M.config()
- require("better_escape").setup()
+  require("better_escape").setup {
+    mappings = {
+      v = {
+        j = {
+          k = false,
+        },
+      },
+    },
+  }
 end
 
 return M

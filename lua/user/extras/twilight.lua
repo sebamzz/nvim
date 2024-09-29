@@ -25,9 +25,16 @@ local M = {
 function M.config()
   require("twilight").setup(M.opts)
   local wk = require("which-key")
-  wk.register({
-    ["<leader>i"] = { "<cmd>Twilight<cr>", "Inactive Code" },
-  })
+  wk.add
+    {
+    "<leader>i",
+    "<cmd>Twilight<cr>",
+    desc = "Inactive Code",
+    icon = {
+      icon = "󰀿 ",
+      color = "grey",
+    },
+  }
 end
 
 return M
