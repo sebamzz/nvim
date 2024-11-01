@@ -31,7 +31,7 @@ local M = {
     error_header = "## Error ",
     prompts = prompts,
     auto_follow_cursor = false, -- Don't follow the cursor after getting response
-    language = "es", -- Language for the prompt
+    language = "en", -- Language for the prompt
   },
   -- See Commands section for default commands if you want to lazy load on them
 }
@@ -39,6 +39,9 @@ local M = {
 function M.config(_, opts)
   local chat = require "CopilotChat"
   local select = require "CopilotChat.select"
+
+  -- Use unnamed register for the selection
+  opts.selection = select.buffer
 
   -- Override the git prompts message
   opts.prompts.Commit = {
