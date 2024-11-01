@@ -31,6 +31,15 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
   end,
 })
 
+vim.api.nvim_create_autocmd({ "FileType" }, {
+  pattern = {
+    "DiffviewFiles",
+  },
+  callback = function()
+    vim.api.nvim_set_hl(0, 'DiffText', { fg = "#f5bc42", bg = "#342f25", bold = true })
+  end,
+})
+
 vim.api.nvim_create_autocmd({ "CmdWinEnter" }, {
   callback = function()
     vim.cmd "quit"
