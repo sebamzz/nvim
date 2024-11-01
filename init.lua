@@ -57,7 +57,8 @@ spec "user.extras.surround"
 spec "user.extras.numb"
 spec "user.extras.jaq"
 spec "user.extras.navbuddy"
-spec "user.extras.better-escape" --esto causa problemas con el la selección de texto (k)
+-- spec "user.extras.better-escape" --esto causa problemas con el la selección de texto (k)
+spec "user.extras.stay-centered"
 -- spec "user.extras.minifiles"
 spec "user.extras.oil"
 -- spec "user.extras.noice"
