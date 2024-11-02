@@ -4,40 +4,6 @@ local M = {
 }
 
 function M.config()
-  -- local mappings = {
-  --   q = { "<cmd>confirm q<CR>", "Quit" },
-  --   w = { "<cmd>write<CR>", "Write" },
-  --   h = { "<cmd>nohlsearch<CR>", "NOHL" },
-  --   [";"] = { "<cmd>tabnew | terminal<CR>", "Term" },
-  --   v = { "<cmd>vsplit<CR>", "Split" },
-  --   b = { name = "Buffers" },
-  --   d = { name = "Debug" },
-  --   f = { name = "Find" },
-  --   g = { name = "Git" },
-  --   l = { name = "LSP" },
-  --   p = { name = "Plugins" },
-  --   t = { name = "Test" },
-  --   a = {
-  --     name = "Tab",
-  --     n = { "<cmd>$tabnew<cr>", "New Empty Tab" },
-  --     N = { "<cmd>tabnew %<cr>", "New Tab" },
-  --     o = { "<cmd>tabonly<cr>", "Only" },
-  --     h = { "<cmd>-tabmove<cr>", "Move Left" },
-  --     l = { "<cmd>+tabmove<cr>", "Move Right" },
-  --   },
-  --   T = { name = "Treesitter" },
-  --   c = {
-  --     name = "Copilot Chat",
-  --     g = {
-  --       name = "CopilotChat Keybindings",
-  --       d = "Show diff",
-  --       p = "System prompt",
-  --       s = "Show selection",
-  --       y = "Yank diff",
-  --     },
-  --   },
-  -- }
-
   local icons = require "user.icons"
   local which_key = require "which-key"
   which_key.setup {
@@ -170,41 +136,22 @@ function M.config()
       "<leader>t",
       group = "Test",
     },
-    -- {
-    --   "<leader>a",
-    --   name = "Tab",
-    --   children = {
-    --     {
-    --       "<leader>an",
-    --       "<cmd>$tabnew<cr>",
-    --       desc = "New Empty Tab",
-    --     },
-    --     {
-    --       "<leader>aN",
-    --       "<cmd>tabnew %<cr>",
-    --       desc = "New Tab",
-    --     },
-    --     {
-    --       "<leader>ao",
-    --       "<cmd>tabonly<cr>",
-    --       desc = "Only",
-    --     },
-    --     {
-    --       "<leader>ah",
-    --       "<cmd>-tabmove<cr>",
-    --       desc = "Move Left",
-    --     },
-    --     {
-    --       "<leader>al",
-    --       "<cmd>+tabmove<cr>",
-    --       desc = "Move Right",
-    --     },
-    --   },
-    -- },
     {
       "<leader>T",
       group = "Treesitter",
     },
+    {
+      "<leader>o",
+      icon = {
+        icon = "󱄎 ",
+        color = "green",
+      },
+      group = "Options",
+    },
+    { "<leader>ow", '<cmd>lua require("user.functions").toggle_option("wrap")<cr>', desc = "Wrap" },
+    { "<leader>or", '<cmd>lua require("user.functions").toggle_option("relativenumber")<cr>', desc = "Relative" },
+    { "<leader>oc", '<cmd>lua require("user.functions").toggle_option("cursorline")<cr>', desc = "Cursorline" },
+    { "<leader>os", '<cmd>lua require("user.functions").toggle_option("spell")<cr>', desc = "Spell" },
   }
 end
 
