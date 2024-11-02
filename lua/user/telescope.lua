@@ -2,7 +2,20 @@ local M = {
   "nvim-telescope/telescope.nvim",
   dependencies = {
     { "nvim-telescope/telescope-fzf-native.nvim", build = "make", lazy = true },
-    "nvim-telescope/telescope-ui-select.nvim",
+    {
+      "aaronhallaert/advanced-git-search.nvim",
+      dependencies = {
+        "nvim-telescope/telescope.nvim",
+        -- to show diff splits and open commits in browser
+        "tpope/vim-fugitive",
+        -- to open commits in browser with fugitive
+        "tpope/vim-rhubarb",
+        -- optional: to replace the diff from fugitive with diffview.nvim
+        -- (fugitive is still needed to open in browser)
+        "sindrets/diffview.nvim",
+        "nvim-telescope/telescope-ui-select.nvim",
+      },
+    },
   },
   lazy = true,
   cmd = "Telescope",
@@ -111,6 +124,16 @@ function M.config()
       "<leader>gC",
       "<cmd>Telescope git_bcommits<cr>",
       desc = "Checkout commit(for current file)",
+    },
+    {
+      "<leader>gd",
+      "<cmd>Telescope advanced_git_search diff_branch_file<cr>",
+      desc = "Git Diff File with Branch",
+    },
+    {
+      "<leader>gx",
+      "<cmd>DiffviewClose<cr>",
+      desc = "Close Diff",
     },
     {
       "<leader>ls",
@@ -264,11 +287,22 @@ function M.config()
           theme = "dropdown",
         },
       },
+      advanced_git_search = {
+        diff_plugin = "diffview",
+        keymaps = {
+          -- following keymaps can be overridden
+          toggle_date_author = "<C-w>",
+          open_commit_in_browser = "<C-o>",
+          copy_commit_hash = "<C-y>",
+          show_entire_commit = "<C-e>",
+        },
+      },
     },
   }
 
   require("telescope").load_extension "ui-select"
   require("telescope").load_extension "refactoring"
+  require("telescope").load_extension "advanced_git_search"
 end
 
 return M
