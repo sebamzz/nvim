@@ -19,7 +19,7 @@ local prompts = {
 
 local M = {
   "CopilotC-Nvim/CopilotChat.nvim",
-  branch = "canary",
+  branch = "main",
   dependencies = {
     { "zbirenbaum/copilot.lua" }, -- or github/copilot.vim
     { "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
@@ -32,6 +32,7 @@ local M = {
     prompts = prompts,
     auto_follow_cursor = false, -- Don't follow the cursor after getting response
     language = "en", -- Language for the prompt
+    chat_autocomplete = true, -- Enable autocomplete for chat
   },
   -- See Commands section for default commands if you want to lazy load on them
 }
@@ -56,8 +57,6 @@ function M.config(_, opts)
   }
 
   chat.setup(opts)
-
-  require("CopilotChat.integrations.cmp").setup()
 
   vim.api.nvim_create_user_command("CopilotChatVisual", function(args)
     chat.ask(args.args, { selection = select.visual })
