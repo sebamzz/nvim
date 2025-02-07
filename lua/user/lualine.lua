@@ -20,6 +20,11 @@ function M.config()
     always_visible = true, -- Show diagnostics even if there are none.
   }
 
+  local selectioncount = {
+    "selectioncount",
+    icon = { "", align = "left" },
+  }
+
   local filetype = {
     function()
       local filetype = vim.bo.filetype
@@ -66,7 +71,7 @@ function M.config()
       lualine_c = { diagnostics },
       -- lualine_x = { diff, "copilot", filetype },
       lualine_x = { "copilot", filetype },
-      lualine_y = { "progress" },
+      lualine_y = { "progress", selectioncount },
       lualine_z = {},
     },
     -- extensions = { "quickfix", "man", "fugitive", "oil" },
