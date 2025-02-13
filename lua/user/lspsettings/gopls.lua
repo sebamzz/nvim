@@ -37,6 +37,7 @@ return {
       staticcheck = true,
       matcher = "Fuzzy",
       diagnosticsDelay = "500ms",
+      directoryFilters = { "-.git", "-.vscode", "-.idea", "-.vscode-test", "-node_modules" },
       symbolMatcher = "fuzzy",
       semanticTokens = true,
     },
