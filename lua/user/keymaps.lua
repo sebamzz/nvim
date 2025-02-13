@@ -31,13 +31,31 @@ keymap("v", ">", ">gv", opts)
 
 keymap("x", "p", [["_dP]])
 
-vim.cmd [[:amenu 10.100 mousemenu.Goto\ Definition <cmd>lua vim.lsp.buf.definition()<CR>]]
-vim.cmd [[:amenu 10.110 mousemenu.References <cmd>lua vim.lsp.buf.references()<CR>]]
-vim.cmd [[:amenu 10.110 mousemenu.Breakpoint <cmd>lua require'dap'.toggle_breakpoint()<CR>]]
--- vim.cmd [[:amenu 10.120 mousemenu.-sep- *]]
+-- vim.cmd [[:amenu 10.100 mousemenu.Goto\ Definition <cmd>lua vim.lsp.buf.definition()<CR>]]
+-- vim.cmd [[:amenu 10.110 mousemenu.References <cmd>lua vim.lsp.buf.references()<CR>]]
+-- vim.cmd [[:amenu 10.110 mousemenu.Breakpoint <cmd>lua require'dap'.toggle_breakpoint()<CR>]]
+-- -- vim.cmd [[:amenu 10.120 mousemenu.-sep- *]]
+--
+-- vim.keymap.set("n", "<RightMouse>", "<cmd>:popup mousemenu<CR>")
+-- vim.keymap.set("n", "<Tab>", "<cmd>:popup mousemenu<CR>")
 
-vim.keymap.set("n", "<RightMouse>", "<cmd>:popup mousemenu<CR>")
-vim.keymap.set("n", "<Tab>", "<cmd>:popup mousemenu<CR>")
+-- Keyboard users
+vim.keymap.set("n", "<C-t>", function()
+  require("menu").open "default"
+end, {})
+
+-- mouse users + nvimtree users!
+vim.keymap.set({ "n", "v" }, "<RightMouse>", function()
+  require("menu.utils").delete_old_menus()
+
+  vim.cmd.exec '"normal! \\<RightMouse>"'
+
+  -- clicked buf
+  local buf = vim.api.nvim_win_get_buf(vim.fn.getmousepos().winid)
+  local options = vim.bo[buf].ft == "NvimTree" and "nvimtree" or "default"
+
+  require("menu").open(options, { mouse = true })
+end, {})
 
 -- more good
 -- keymap({ "n", "o", "x" }, "<s-h>", "^", opts)
