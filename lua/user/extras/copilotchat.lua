@@ -25,7 +25,7 @@ local M = {
     { "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
   },
   opts = {
-    debug = true, -- Enable debugging
+    debug = false, -- Enable debugging
     question_header = "## User ",
     answer_header = "## Copilot ",
     error_header = "## Error ",
