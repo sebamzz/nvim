@@ -214,6 +214,18 @@ function M.config()
       "<cmd>lua require'dapui'.toggle({reset = true})<cr>",
       desc = "Toggle UI",
     },
+    {
+      "<leader>dw",
+      "<cmd>lua require('dapui').elements.watches.add(vim.fn.expand('<cword>'))<cr>",
+      desc = "Add Watch",
+    },
+  }
+
+  wk.add {
+    "<leader>dw",
+    '<cmd>lua require("dapui").elements.watches.add("call " .. table.concat(require"user.functions".get_visual_selection_text()))<cr>',
+    desc = "Add Watch",
+    mode = "v",
   }
 
   for _, language in ipairs(js_based_languages) do
